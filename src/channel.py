@@ -18,6 +18,39 @@ class Channel:
         self.video_count = self.channel['items'][0]['statistics']['videoCount']
         self.view_count = self.channel['items'][0]['statistics']['viewCount']
 
+    def __str__(self):
+        """Выводит название и ссылку канала"""
+        return f'{self.title} ({self.url})'
+
+    def __add__(self, other):
+        """Выводит сумму подписчиков"""
+        return int(self.subscriber_count) + int(other.subscriber_count)
+
+    def __sub__(self, other):
+        """Выводит разноость подписчиков"""
+        result = abs(int(self.subscriber_count) - int(other.subscriber_count))
+        return result
+
+    def __it__(self, other):
+        """Сравнение меньше"""
+        return self.subscriber_count < other.subscriber_count
+
+    def __le__(self, other):
+        """Сравнение меньше или равно"""
+        return self.subscriber_count <= other.subscriber_count
+
+    def __gt__(self, other):
+        """Сравнение больше"""
+        return self.subscriber_count > other.subscriber_count
+
+    def __ge__(self, other):
+        """Сравнение больше или равно"""
+        return self.subscriber_count >= other.subscriber_count
+
+    def __eq__(self, other):
+        """Сравнение равно"""
+        return self.subscriber_count == other.subscriber_count
+
     @property
     def channel_id(self):
         """Геттер id канала"""
@@ -34,7 +67,7 @@ class Channel:
 
     def to_json(self, file_name):
         """Создаем файл с данными по каналу"""
-        with open(f'../saves/{file_name}', 'w') as f:
+        with open(f'../saves/{file_name}.json', 'w') as f:
             mydict = {"channel_id" : self.channel_id,
             "title" : self.title,
             "description" : self.description,
